@@ -45,6 +45,10 @@ Document new verification commands when adding them.
 - Support keyboard navigation, visible focus, and reduced motion.
 - Check affected layouts at mobile and desktop widths.
 
+## Project terminology
+
+- Glossary of abbreviations: src/data/glossary.json.
+
 ## Verification
 
 - Run relevant checks and the production build after changes.
