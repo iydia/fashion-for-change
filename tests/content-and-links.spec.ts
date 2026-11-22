@@ -9,11 +9,11 @@ test('Join FC points to the Linktree URL', async ({ page }) => {
     await expect(joinLink).toHaveAttribute('target', '_blank');
 });
 
-test('the FC logo links to the Linktree URL', async ({ page }) => {
+test('the FC logo links to the home page', async ({ page }) => {
     await page.goto('/');
     const logoLink = page.getByRole('link', { name: /Fashion for Change/ });
-    await expect(logoLink).toHaveAttribute('href', LINKTREE_URL);
-    await expect(logoLink).toHaveAttribute('target', '_blank');
+    await expect(logoLink).toHaveAttribute('href', '/');
+    await expect(logoLink).not.toHaveAttribute('target', '_blank');
 });
 
 test('the footer Linktree link points to the Linktree URL', async ({ page }) => {

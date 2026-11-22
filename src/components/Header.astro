@@ -12,13 +12,10 @@ const slug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
 <header class="relative z-20 border-b border-border">
     <div class="grid items-center grid-cols-[1fr_auto_1fr] gap-4 py-4 sm:py-6">
         <a
-            href={SITE.linktree}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/"
             class="justify-self-start rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         >
             <img src={fcLogo.src} width={fcLogo.width} height={fcLogo.height} alt={SITE.name} class="h-7 w-auto sm:h-9" />
-            <span class="sr-only">(opens in a new tab)</span>
         </a>
 
         <nav id="primary-navigation" aria-label="Primary" class="justify-self-center">
@@ -136,7 +133,7 @@ const slug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
             position: absolute;
             top: 100%;
             left: 0;
-            margin-top: 0.5rem;
+            margin-top: 0;
             min-width: 12rem;
             padding: 0.5rem;
             border: 1px solid var(--color-border);

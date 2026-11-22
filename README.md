@@ -34,8 +34,7 @@ Playwright tests boot that same static server automatically
 
 ## Where things live
 
-- **Site-wide facts**: `src/config/site.ts` — currently just the Linktree
-  URL, used for every external call to action (logo, "Join FC", footer).
+- **Site-wide facts**: `src/config/site.ts`.
 - **Navigation**: `src/config/navigation.ts` — one typed list (links and
   disclosure groups) driving both the desktop and mobile markup in
   `src/components/Header.astro`. Add a route here to add it to the menu.
