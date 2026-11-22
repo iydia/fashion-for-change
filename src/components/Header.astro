@@ -1,16 +1,23 @@
 ---
-import fcLogo from '../assets/fc/FC_Line_Logo_Black.png';
+import darkLogo from '../assets/fc/FC_Line_Logo_Black.png';
+import lightLogo from '../assets/fc/FC_Line_Logo_White.png';
 import { SITE } from '../config/site';
 import { primaryNavigation, isNavDisclosure } from '../config/navigation';
 
+interface Props {
+    tone?: 'light' | 'dark';
+}
+
+const { tone = 'light' } = Astro.props;
+const fcLogo = tone === 'dark' ? lightLogo : darkLogo;
 const rawPath = Astro.url.pathname;
 const currentPath = rawPath !== '/' && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
 const isActive = (href: string) => currentPath === href;
 const slug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
 ---
 
-<header class="relative z-20 border-b border-border">
-    <div class="grid items-center grid-cols-[1fr_auto_1fr] gap-4 py-4 sm:py-6">
+<header class="relative z-20 border-b border-border" data-tone={tone}>
+    <div class="header-inner grid items-center grid-cols-[1fr_auto_1fr] gap-4 py-4 sm:py-6">
         <a
             href="/"
             class="justify-self-start rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
@@ -85,6 +92,26 @@ const slug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
 </script>
 
 <style>
+    header[data-tone='dark'] {
+        --color-ink: var(--color-stage-text);
+        --color-paper: var(--color-stage);
+        --color-surface: #30271f;
+        --color-border: #4a3c30;
+        background: var(--color-stage);
+        color: var(--color-stage-text);
+    }
+
+    header[data-tone='dark'] .header-inner {
+        max-width: 90rem;
+        margin-inline: auto;
+        padding-inline: clamp(1.5rem, 5vw, 4.5rem);
+    }
+
+    .nav-trigger,
+    .nav-toggle {
+        cursor: pointer;
+    }
+
     .nav-list {
         display: none;
         flex-direction: column;
@@ -116,7 +143,7 @@ const slug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
         transform: rotate(180deg);
     }
 
-    @media (min-width: 640px) {
+    @media (min-width: 960px) {
         .nav-list {
             display: flex;
             position: static;

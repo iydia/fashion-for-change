@@ -1,0 +1,182 @@
+---
+import { Image } from 'astro:assets';
+import angelWings from '../../assets/shows/angel-wings.jpg';
+import { SITE } from '../../config/site';
+---
+
+<section class="stage-hero" aria-labelledby="home-title">
+    <div class="stage-image">
+        <Image
+            src={angelWings}
+            alt="A performer in a white feathered wing costume, seen from behind in a dimly lit hallway."
+            widths={[640, 960, 1280, 1600]}
+            sizes="(min-width: 960px) 62vw, 100vw"
+            format="webp"
+            loading="eager"
+            fetchpriority="high"
+        />
+    </div>
+    <div class="stage-content">
+        <p class="eyebrow">University of Waterloo</p>
+        <h1 id="home-title"><span>Fashion</span><span class="title-second">for Change</span></h1>
+        <div class="stage-actions">
+            <a class="stage-primary" href="/gallery/show-day">Explore Show Day</a>
+            <a class="stage-secondary" href={SITE.linktree} target="_blank" rel="noopener noreferrer">
+                Join FC <span class="sr-only">(opens in a new tab)</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .stage-hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        background: var(--color-stage);
+        color: var(--color-stage-text);
+    }
+
+    .stage-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 90rem;
+        margin-inline: auto;
+        padding: 3.5rem 1.5rem 0;
+    }
+
+    .eyebrow {
+        color: var(--color-stage-muted);
+        font-size: 0.875rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+    }
+
+    h1 {
+        margin-top: 1.5rem;
+        font-size: clamp(3.5rem, 12vw, 7rem);
+        font-weight: 400;
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+    }
+
+    h1 span {
+        display: block;
+    }
+
+    .title-second {
+        margin-top: 0.12em;
+    }
+
+    .stage-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+    }
+
+    .stage-actions a {
+        font-size: 1rem;
+        text-decoration: none;
+    }
+
+    .stage-primary {
+        border: 1px solid var(--color-stage-text);
+        padding: 0.875rem 1.25rem;
+        transition: background-color 160ms, color 160ms;
+    }
+
+    .stage-primary:hover {
+        background: var(--color-stage-text);
+        color: var(--color-stage);
+        opacity: 1;
+    }
+
+    .stage-secondary {
+        border-bottom: 1px solid var(--color-stage-muted);
+        padding-block: 0.75rem;
+    }
+
+    .stage-actions a:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 5px;
+    }
+
+    .stage-image {
+        position: relative;
+        height: clamp(28rem, 135vw, 48rem);
+        margin-top: 0.5rem;
+    }
+
+    .stage-image::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, var(--color-stage), transparent 18%, transparent 85%, var(--color-stage));
+        pointer-events: none;
+    }
+
+    .stage-image :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 35%;
+    }
+
+    @media (max-width: 959px) {
+        .stage-hero {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stage-content {
+            order: -1;
+        }
+    }
+
+    @media (min-width: 960px) {
+        .stage-content {
+            display: flex;
+            min-height: clamp(42rem, 62vw, 56rem);
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem clamp(1.5rem, 5vw, 4.5rem) 7rem;
+        }
+
+        h1 {
+            max-width: 55%;
+            font-size: clamp(5.75rem, 8.7vw, 9.5rem);
+        }
+
+        .stage-image {
+            position: absolute;
+            inset: 0 0 0 auto;
+            width: 62%;
+            height: 100%;
+            margin-top: 0;
+        }
+
+        .stage-image::after {
+            background:
+                linear-gradient(to right, var(--color-stage), transparent 45%),
+                linear-gradient(to bottom, transparent 75%, var(--color-stage));
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .stage-content {
+            animation: arrive 700ms ease-out both;
+        }
+
+        @keyframes arrive {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .stage-primary { transition: none; }
+    }
+</style>

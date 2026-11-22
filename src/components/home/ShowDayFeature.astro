@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import arcana from '../../assets/shows/show-arcana.jpg';
+---
+
+<section class="show-feature" aria-labelledby="show-day-title">
+    <div class="show-heading">
+        <div>
+            <p class="eyebrow">On the runway</p>
+            <h2 id="show-day-title">Show Day</h2>
+        </div>
+        <a href="/gallery/show-day">Explore the gallery</a>
+    </div>
+    <a class="show-image" href="/gallery/show-day" aria-label="View the Show Day gallery">
+        <Image
+            src={arcana}
+            alt="Two performers onstage in elaborate floral and metallic costumes against a blue backdrop."
+            widths={[640, 960, 1280, 1920]}
+            sizes="(min-width: 1440px) 1296px, (min-width: 640px) 90vw, calc(100vw - 48px)"
+            format="webp"
+            loading="lazy"
+        />
+    </a>
+</section>
+
+<style>
+    .show-feature {
+        max-width: 90rem;
+        margin-inline: auto;
+        padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 5vw, 4.5rem);
+    }
+
+    .show-heading {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .eyebrow {
+        color: var(--color-accent);
+        font-size: 0.875rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    h2 {
+        margin-top: 1rem;
+        font-size: clamp(3.5rem, 7vw, 6rem);
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -0.045em;
+    }
+
+    .show-heading a {
+        padding-block: 0.75rem;
+        font-size: 1.125rem;
+        text-underline-offset: 0.35em;
+    }
+
+    .show-image {
+        display: block;
+        background: #b1c8ee;
+    }
+
+    .show-image :global(img) {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    a:focus-visible {
+        outline: 2px solid var(--color-ink);
+        outline-offset: 6px;
+    }
+</style>

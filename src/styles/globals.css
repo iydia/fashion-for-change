@@ -7,6 +7,9 @@
     --color-surface: #f1efec;
     --color-border: #d6d3d1;
     --color-accent: #44403c;
+    --color-stage: #19130f;
+    --color-stage-text: #f7f1e7;
+    --color-stage-muted: #c8baa9;
 }
 
 @layer base {

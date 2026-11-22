@@ -1,30 +1,51 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { SITE } from '../config/site';
+import StageHero from '../components/home/StageHero.astro';
+import ShowDayFeature from '../components/home/ShowDayFeature.astro';
 ---
 
-<Layout title="Home">
-    <section class="py-8 sm:py-16">
-        <p class="text-sm font-medium tracking-wide uppercase text-accent">University of Waterloo</p>
-        <h1 class="mt-2">{SITE.name}</h1>
-        <a href={SITE.linktree} target="_blank" rel="noopener noreferrer" class="btn mt-8">
-            Join FC
-            <span class="sr-only">(opens in a new tab)</span>
-        </a>
-    </section>
+<Layout title="Home" variant="stage">
+    <StageHero />
+    <ShowDayFeature />
 
-    <section aria-labelledby="gallery-heading" class="py-12 border-t border-border">
-        <h2 id="gallery-heading">Gallery</h2>
-        <p class="mt-4 max-w-prose text-accent">Photos from our shows and events are coming soon.</p>
-    </section>
-
-    <section aria-labelledby="sponsors-heading" class="py-12 border-t border-border">
-        <h2 id="sponsors-heading">Sponsors</h2>
-        <p class="mt-4 max-w-prose text-accent">Sponsor information coming soon.</p>
-    </section>
-
-    <section aria-labelledby="charities-heading" class="py-12 border-t border-border">
-        <h2 id="charities-heading">Charities</h2>
-        <p class="mt-4 max-w-prose text-accent">Charity information coming soon.</p>
-    </section>
+    <div class="community">
+        <section aria-labelledby="sponsors-heading">
+            <h2 id="sponsors-heading">Sponsors</h2>
+            <p>Sponsor information coming soon.</p>
+        </section>
+        <section aria-labelledby="charities-heading">
+            <h2 id="charities-heading">Charities</h2>
+            <p>Charity information coming soon.</p>
+        </section>
+    </div>
 </Layout>
+
+<style>
+    .community {
+        display: grid;
+        gap: 3rem;
+        max-width: 90rem;
+        margin-inline: auto;
+        padding: 0 clamp(1.5rem, 5vw, 4.5rem) clamp(4rem, 7vw, 7rem);
+    }
+
+    section {
+        border-top: 1px solid var(--color-border);
+        padding-top: 2rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 400;
+    }
+
+    p {
+        margin-top: 0.75rem;
+        color: var(--color-accent);
+        font-size: 1.125rem;
+    }
+
+    @media (min-width: 640px) {
+        .community { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+</style>

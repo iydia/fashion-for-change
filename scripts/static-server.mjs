@@ -8,6 +8,9 @@ const distDir = new URL('../dist/', import.meta.url);
 const MIME_TYPES = {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css; charset=utf-8',
+    '.js': 'text/javascript; charset=utf-8',
+    '.jpg': 'image/jpeg',
+    '.webp': 'image/webp',
     '.png': 'image/png',
     '.svg': 'image/svg+xml',
     '.woff2': 'font/woff2',

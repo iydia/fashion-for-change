@@ -10,6 +10,8 @@ export default defineConfig({
         plugins: [tailwindcss()]
     },
     adapter: netlify({
+        // Generate static images at build time so local preview and production agree.
+        imageCDN: false,
         devFeatures: {
             environmentVariables: true,
             edgeFunctions: false
