@@ -2,50 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import StageHero from '../components/home/StageHero.astro';
 import ShowDayFeature from '../components/home/ShowDayFeature.astro';
+import LogoMarquee from '../components/LogoMarquee.astro';
+import { funders, donationRecipients } from '../data/partners';
 ---
 
 <Layout title="Home" variant="stage">
     <StageHero />
     <ShowDayFeature />
-
-    <div class="community">
-        <section aria-labelledby="sponsors-heading">
-            <h2 id="sponsors-heading">Sponsors</h2>
-            <p>Sponsor information coming soon.</p>
-        </section>
-        <section aria-labelledby="charities-heading">
-            <h2 id="charities-heading">Charities</h2>
-            <p>Charity information coming soon.</p>
-        </section>
-    </div>
+    <LogoMarquee id="funding" heading="Funded by" items={funders} direction="left" duration={65} tone="dark" />
+    <LogoMarquee id="donations" heading="Philanthropic donations to" items={donationRecipients} direction="right" duration={95} tone="dark" />
 </Layout>
-
-<style>
-    .community {
-        display: grid;
-        gap: 3rem;
-        max-width: 90rem;
-        margin-inline: auto;
-        padding: 0 clamp(1.5rem, 5vw, 4.5rem) clamp(4rem, 7vw, 7rem);
-    }
-
-    section {
-        border-top: 1px solid var(--color-border);
-        padding-top: 2rem;
-    }
-
-    h2 {
-        font-size: 2rem;
-        font-weight: 400;
-    }
-
-    p {
-        margin-top: 0.75rem;
-        color: var(--color-accent);
-        font-size: 1.125rem;
-    }
-
-    @media (min-width: 640px) {
-        .community { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-</style>

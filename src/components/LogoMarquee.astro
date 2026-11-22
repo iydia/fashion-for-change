@@ -1,0 +1,190 @@
+---
+import PartnerLogoImage from './PartnerLogo.astro';
+import type { PartnerLogo } from '../data/partners';
+
+interface Props {
+    id: string;
+    heading: string;
+    items: readonly PartnerLogo[];
+    direction?: 'left' | 'right';
+    duration?: number;
+    tone?: 'cool' | 'warm' | 'dark';
+}
+
+const { id, heading, items, direction = 'left', duration = 60, tone = 'dark' } = Astro.props;
+if (!Number.isFinite(duration) || duration <= 0) throw new Error('LogoMarquee duration must be positive.');
+// Each cycle spans at least six cards, wider than our maximum viewport.
+const repeatCount = items.length ? Math.ceil(6 / items.length) : 0;
+const visualItems = Array.from({ length: repeatCount }, () => items).flat();
+---
+
+{
+    items.length > 0 && (
+        <section class="logo-marquee" data-logo-marquee data-tone={tone} data-direction={direction} style={`--duration: ${duration}s`} aria-labelledby={`${id}-heading`}>
+            <div class="band-heading">
+                <h2 id={`${id}-heading`}>{heading}</h2>
+            </div>
+            <div class="logo-viewport">
+                <div class="logo-track" id={`${id}-track`}>
+                    {[0, 1].map((copy) => (
+                        <div class="logo-group" role="list" aria-hidden={copy === 1 ? 'true' : undefined} data-copy={copy === 1 ? '' : undefined}>
+                            {visualItems.map((partner, index) => (
+                                <div class="logo-card" role="listitem" aria-hidden={index >= items.length ? 'true' : undefined} data-repeat={index >= items.length ? '' : undefined} title={partner.name}>
+                                    <div class="logo-surface">
+                                    {partner.href ? (
+                                        <a class="logo-link" href={partner.href} target="_blank" rel="noopener noreferrer" aria-label={`${partner.name} (opens in a new tab)`} tabindex={copy === 1 || index >= items.length ? -1 : undefined}>
+                                            <PartnerLogoImage partner={partner} />
+                                        </a>
+                                    ) : (
+                                        <span class="logo-image" role="img" aria-label={partner.name}>
+                                            <PartnerLogoImage partner={partner} />
+                                        </span>
+                                    )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )
+}
+
+<script>
+    import '../scripts/logo-marquee';
+</script>
+
+<style>
+    .logo-marquee {
+        --band-background: #eef2f5;
+        --play-state: paused;
+        background: var(--band-background);
+        padding-block: clamp(2.5rem, 5vw, 4.5rem);
+        overflow: hidden;
+    }
+
+    .logo-marquee[data-tone='warm'] { --band-background: #f5f1eb; }
+    .logo-marquee[data-tone='dark'] {
+        --band-background: var(--color-stage);
+        color: var(--color-stage-text);
+    }
+
+    .band-heading {
+        text-align: center;
+        max-width: 90rem;
+        padding-inline: clamp(1.5rem, 5vw, 4.5rem);
+        margin: 0 auto 2rem;
+    }
+
+    h2 {
+        font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+        font-weight: 400;
+        line-height: 1.15;
+        letter-spacing: -0.025em;
+    }
+
+    .logo-viewport { max-width: 90rem; margin-inline: auto; padding-block: 1.5rem; }
+    .logo-track { width: 100%; }
+    .logo-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; padding-inline: 1.5rem; }
+
+    .logo-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 16rem;
+        width: 16rem;
+        height: 9rem;
+        perspective: 900px;
+    }
+
+    .logo-surface {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        padding: 1.5rem;
+        background: white;
+        border: 1px solid rgb(255 255 255 / 65%);
+        border-radius: 1rem;
+        box-shadow: 0 0 24px rgb(223 191 150 / 10%), 0 8px 18px rgb(0 0 0 / 12%);
+        transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+        transition: transform 350ms ease-out, box-shadow 250ms ease-out;
+    }
+
+    .logo-surface::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(circle at var(--pointer-x, 50%) var(--pointer-y, 50%), rgb(238 206 164 / 24%), transparent 65%);
+        opacity: 0;
+        transition: opacity 250ms ease-out;
+        pointer-events: none;
+    }
+
+    .logo-card[data-tilting] .logo-surface {
+        box-shadow: 0 0 32px rgb(223 191 150 / 24%), 0 12px 24px rgb(0 0 0 / 20%);
+        transition: transform 100ms linear, box-shadow 250ms ease-out;
+    }
+
+    .logo-card[data-tilting] .logo-surface::after { opacity: 1; }
+    .logo-link:hover { opacity: 1; }
+
+    .logo-link, .logo-image { display: block; width: 100%; height: 100%; }
+    .logo-link:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 8px; }
+
+    [data-repeat], [data-copy] { display: none; }
+
+    .logo-marquee[data-animated] .logo-viewport {
+        mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+    }
+
+    .logo-marquee[data-animated] .logo-track {
+        display: flex;
+        width: max-content;
+        animation: logo-drift var(--duration) linear infinite;
+        animation-play-state: var(--play-state);
+    }
+
+    .logo-marquee[data-animated] .logo-group {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+        justify-content: start;
+        padding: 0 2rem 0 0;
+    }
+
+    .logo-marquee[data-animated] [data-repeat] { display: flex; }
+    .logo-marquee[data-direction='right'] .logo-track { animation-direction: reverse; }
+    .logo-marquee[data-in-view='true'] { --play-state: running; }
+
+    /* Keyboard users get a stable, fully visible set of the original links. */
+    .logo-marquee:has(a:focus-visible) .logo-track { animation: none; transform: none; width: 100%; }
+    .logo-marquee:has(a:focus-visible) .logo-group { flex-wrap: wrap; justify-content: center; padding-inline: 1.5rem; }
+    .logo-marquee:has(a:focus-visible) [data-repeat], .logo-marquee:has(a:focus-visible) [data-copy] { display: none; }
+    .logo-marquee:has(a:focus-visible) .logo-viewport { mask-image: none; }
+
+    @keyframes logo-drift {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+
+    @media (max-width: 399px) {
+        .logo-card { flex-basis: 15rem; width: 15rem; }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+        .logo-surface { transform: none; }
+        .logo-surface::after { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .logo-surface { transform: none; transition: none; }
+        .logo-surface::after { display: none; }
+        .logo-marquee[data-animated] .logo-track { animation: none; transform: none; width: 100%; }
+        .logo-marquee[data-animated] .logo-group { flex-wrap: wrap; justify-content: center; padding-inline: 1.5rem; }
+        .logo-marquee[data-animated] [data-repeat], .logo-marquee[data-animated] [data-copy] { display: none; }
+        .logo-marquee[data-animated] .logo-viewport { mask-image: none; }
+    }
+</style>

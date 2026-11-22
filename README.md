@@ -72,3 +72,22 @@ it's ready. No CMS or content collection is wired up yet; see Phase 2.
 - Home page carousels (sponsor, charity) and theatre-style visual design.
 - Final color palette (current palette is a neutral placeholder).
 - Confirmation of the founding year used in the `/team/before-2025` message.
+
+## Partner logo bands
+
+Organization names, optional external URLs, logo imports, and visible artwork bounds live in
+`src/data/partners.ts`. `LogoMarquee.astro` accepts a unique `id`, `heading`,
+`items`, `direction` (`left`/`right`), `duration` in seconds per cycle, and
+`tone` (`dark`/`cool`/`warm`). Original logo files are preserved; `PartnerLogo.astro`
+uses an SVG viewport to exclude export whitespace and build-optimized images.
+
+Track motion continues on mouse hover and pauses offscreen or when the document is hidden. Keyboard focus presents a static set of links. Reduced-motion preferences
+and JavaScript-free browsing show each organization once in a static layout.
+Visual repetitions are hidden from screen readers.
+
+Linked logos open in a new tab. Keyboard focus presents a static set of original logos; visual loop copies are clickable but excluded from the tab order and accessibility tree.
+
+Logo cards use a separate 3D surface inside each moving track slot. Fine mouse
+pointers apply a maximum 3-degree inverse tilt and a warm highlight. Only the
+active card runs a requestAnimationFrame loop; touch and reduced-motion users
+get flat cards. No WebGL or animation dependency is required.

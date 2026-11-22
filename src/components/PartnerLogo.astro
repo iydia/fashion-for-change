@@ -1,0 +1,28 @@
+---
+import { getImage } from 'astro:assets';
+import type { PartnerLogo } from '../data/partners';
+
+interface Props {
+    partner: PartnerLogo;
+}
+
+const { partner } = Astro.props;
+const optimized = await getImage({
+    src: partner.image,
+    width: Math.min(960, partner.image.width),
+    format: 'webp'
+});
+---
+
+<!-- A viewport removes export whitespace without editing brand artwork. -->
+<svg viewBox={partner.viewBox.join(' ')} preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+    <image href={optimized.src} width={partner.image.width} height={partner.image.height} />
+</svg>
+
+<style>
+    svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+</style>
