@@ -1,3 +1,5 @@
+import { teamYears } from '../data/teams';
+
 export type NavLink = {
     label: string;
     href: string;
@@ -28,8 +30,7 @@ export const primaryNavigation: NavItem[] = [
     {
         label: 'Our Team',
         items: [
-            { label: '2026–2027', href: '/team/2026-2027' },
-            { label: '2025–2026', href: '/team/2025-2026' },
+            ...teamYears.map((year) => ({ label: year.label, href: `/team/${year.slug}` })),
             { label: 'Before 2025', href: '/team/before-2025' }
         ]
     }

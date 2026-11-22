@@ -3,5 +3,31 @@
     "UW": "University of Waterloo",
     "KW": "Kitchener-Waterloo",
     "MEF": "Math Endowment Fund",
-    "SLEF": "Student Life Endowment Fund"
+    "SLEF": "Student Life Endowment Fund",
+    "BOD": "Board of Directors",
+    "PVP": "President and Vice President",
+    "relationships": {
+        "PVP": {
+            "subsetOf": "BOD"
+        }
+    },
+    "teamStructure": {
+        "2026-2027": {
+            "teams": [
+                "Events",
+                "Marketing",
+                "Sustainability",
+                "Stage",
+                "Finance",
+                "PR",
+                "Sponsorship",
+                "Artistic",
+                "Model"
+            ],
+            "leadership": "Each team has a director."
+        },
+        "2025-2026": {
+            "teams": []
+        }
+    }
 }

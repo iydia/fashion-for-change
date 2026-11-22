@@ -1,0 +1,65 @@
+---
+import type { GetStaticPaths } from 'astro';
+import TeamLayout from '../../layouts/TeamLayout.astro';
+import { teamYears, leadershipTerms, type TeamYear } from '../../data/teams';
+
+export const getStaticPaths = (() => teamYears.map((year) => ({
+    params: { year: year.slug },
+    props: { year }
+}))) satisfies GetStaticPaths;
+
+interface Props { year: TeamYear; }
+const { year } = Astro.props;
+---
+
+<TeamLayout title={year.label}>
+    <nav class="year-navigation" aria-label="Team years">
+        {teamYears.map((item) => (
+            <a href={`/team/${item.slug}`} aria-current={item.slug === year.slug ? 'page' : undefined}>{item.label}</a>
+        ))}
+        <a href="/team/before-2025">Before 2025</a>
+    </nav>
+
+    {year.teams.length > 0 ? (
+        <>
+            {year.leadership && (
+                <section class="leadership" aria-labelledby="leadership-heading">
+                    <h2 id="leadership-heading">Leadership</h2>
+                    <p>{year.leadership}</p>
+                    <dl>
+                        <div><dt>BOD</dt><dd>{leadershipTerms.BOD}</dd></div>
+                        <div><dt>PVP</dt><dd>{leadershipTerms.PVP}</dd></div>
+                    </dl>
+                    {leadershipTerms.pvpParent === 'BOD' && <p>PVP is a subset of the BOD.</p>}
+                </section>
+            )}
+            <section aria-labelledby="teams-heading">
+                <h2 id="teams-heading">Our teams</h2>
+                <ul class="team-grid">
+                    {year.teams.map((name) => (
+                        <li>
+                            <h3>{name}</h3>
+                            <p>Member details coming soon.</p>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+        </>
+    ) : <p class="empty-state">Team information coming soon.</p>}
+</TeamLayout>
+
+<style>
+    .year-navigation { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block: 2rem 3rem; }
+    .year-navigation a { padding: 0.65rem 1rem; border: 1px solid var(--color-border); border-radius: 0.25rem; text-decoration: none; font-size: 1rem; }
+    .year-navigation a[aria-current='page'] { background: var(--color-ink); color: var(--color-paper); border-color: var(--color-ink); }
+    .year-navigation a:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 4px; }
+    .leadership { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--color-border); }
+    .leadership p, .empty-state { margin-top: 1rem; font-size: 1.125rem; color: var(--color-accent); }
+    dl { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; margin-top: 1.5rem; }
+    dt { font-weight: 600; }
+    dd { margin-top: 0.25rem; color: var(--color-accent); }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .team-grid li { padding: 1.5rem; border: 1px solid var(--color-border); border-radius: 0.375rem; }
+    h3 { font-size: 1.5rem; font-weight: 500; }
+    .team-grid p { margin-top: 0.75rem; color: var(--color-accent); font-size: 1rem; }
+</style>

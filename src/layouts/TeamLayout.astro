@@ -12,5 +12,6 @@ const defaultMessage = 'Member names, roles, photos, and biographies for this te
 
 <Layout title={title}>
     <h1>{title}</h1>
-    <p class="mt-6 max-w-prose text-lg text-accent">{message ?? defaultMessage}</p>
+    {(message || !Astro.slots.has('default')) && <p class="mt-6 max-w-prose text-lg text-accent">{message ?? defaultMessage}</p>}
+    <slot />
 </Layout>
