@@ -16,7 +16,7 @@ const isActive = (href: string) => currentPath === href;
 const slug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
 ---
 
-<header class="relative z-20 border-b border-border" data-tone={tone}>
+<header class="relative z-20 border-b border-border" data-tone={tone} data-cursor-tone={tone}>
     <div class="header-inner grid items-center grid-cols-[1fr_auto_1fr] gap-4 py-4 sm:py-6">
         <a
             href="/"

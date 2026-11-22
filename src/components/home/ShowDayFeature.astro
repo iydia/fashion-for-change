@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import arcana from '../../assets/shows/show-arcana.jpg';
 ---
 
-<section class="show-feature" aria-labelledby="show-day-title">
+<section class="show-feature" data-cursor-tone="light" aria-labelledby="show-day-title">
     <div class="show-heading">
         <div>
             <p class="eyebrow">On the runway</p>
@@ -11,7 +11,7 @@ import arcana from '../../assets/shows/show-arcana.jpg';
         </div>
         <a href="/gallery/show-day">Explore the gallery</a>
     </div>
-    <a class="show-image" href="/gallery/show-day" aria-label="View the Show Day gallery">
+    <a class="show-image" data-cursor-tone="photo" href="/gallery/show-day" aria-label="View the Show Day gallery">
         <Image
             src={arcana}
             alt="Two performers onstage in elaborate floral and metallic costumes against a blue backdrop."

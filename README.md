@@ -91,3 +91,14 @@ Logo cards use a separate 3D surface inside each moving track slot. Fine mouse
 pointers apply a maximum 3-degree inverse tilt and a warm highlight. Only the
 active card runs a requestAnimationFrame loop; touch and reduced-motion users
 get flat cards. No WebGL or animation dependency is required.
+
+## Cursor trail
+
+`CursorTrail.astro` adds one decorative, click-through canvas through the shared
+layout. `src/config/cursor.ts` holds the sampled FC blue (#8CCAFB), tone palettes,
+and trail limits. Add `data-cursor-tone="dark"`, `"light"`, or `"photo"` to a
+section to select its treatment; the nearest annotation wins. The native mouse cursor is hidden only after the glow has been painted, and
+restored when the effect clears or is disabled. The glow is aligned to the actual
+click location. Fine mouse pointers get at most 20 fading trail points; the
+render loop stops when idle, on window blur, or when the page is hidden. Touch
+and reduced-motion users get no overlay. No dependencies were added.

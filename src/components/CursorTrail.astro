@@ -1,0 +1,27 @@
+<canvas data-cursor-trail aria-hidden="true" hidden></canvas>
+
+<script>
+    import '../scripts/cursor-trail';
+</script>
+
+<style>
+    canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+        :global(html[data-glow-cursor]),
+        :global(html[data-glow-cursor] *) {
+            cursor: none !important;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+        canvas { display: none; }
+    }
+</style>

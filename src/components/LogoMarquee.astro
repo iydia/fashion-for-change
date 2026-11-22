@@ -20,7 +20,7 @@ const visualItems = Array.from({ length: repeatCount }, () => items).flat();
 
 {
     items.length > 0 && (
-        <section class="logo-marquee" data-logo-marquee data-tone={tone} data-direction={direction} style={`--duration: ${duration}s`} aria-labelledby={`${id}-heading`}>
+        <section class="logo-marquee" data-logo-marquee data-tone={tone} data-cursor-tone={tone === 'dark' ? 'dark' : 'light'} data-direction={direction} style={`--duration: ${duration}s`} aria-labelledby={`${id}-heading`}>
             <div class="band-heading">
                 <h2 id={`${id}-heading`}>{heading}</h2>
             </div>
@@ -30,7 +30,7 @@ const visualItems = Array.from({ length: repeatCount }, () => items).flat();
                         <div class="logo-group" role="list" aria-hidden={copy === 1 ? 'true' : undefined} data-copy={copy === 1 ? '' : undefined}>
                             {visualItems.map((partner, index) => (
                                 <div class="logo-card" role="listitem" aria-hidden={index >= items.length ? 'true' : undefined} data-repeat={index >= items.length ? '' : undefined} title={partner.name}>
-                                    <div class="logo-surface">
+                                    <div class="logo-surface" data-cursor-tone="light">
                                     {partner.href ? (
                                         <a class="logo-link" href={partner.href} target="_blank" rel="noopener noreferrer" aria-label={`${partner.name} (opens in a new tab)`} tabindex={copy === 1 || index >= items.length ? -1 : undefined}>
                                             <PartnerLogoImage partner={partner} />
