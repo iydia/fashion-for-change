@@ -1,0 +1,14 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+    <h1>{title}</h1>
+    <p class="mt-6 max-w-prose text-lg text-accent">Photography, captions, dates, and descriptions for this gallery are still being gathered. Check back soon.</p>
+</Layout>

@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm view *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(pkill -f \"astro preview\")",
+      "Bash(pkill -f \"netlify-cli\")",
+      "Bash(lsof -ti:4321)",
+      "Bash(xargs -r kill -9)",
+      "Read(//private/tmp/**)",
+      "Bash(lsof -iTCP -sTCP:LISTEN -n -P)",
+      "Bash(node_modules/.bin/astro preview *)",
+      "Bash(npx playwright *)",
+      "Bash(xargs -I{} sh -c 'echo ===={}====; cat \"{}\"')",
+      "Bash(node -e ' *)",
+      "Bash(curl -s -o /dev/null -w \"home: %{http_code}\\\\n\" http://localhost:4321/)",
+      "Bash(curl -s -o /dev/null -w \"about: %{http_code}\\\\n\" http://localhost:4321/about)",
+      "Bash(pkill -f \"static-server.mjs\")",
+      "Bash(npm uninstall *)"
+    ]
+  }
+}

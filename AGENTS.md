@@ -9,7 +9,11 @@ for installed versions and available scripts.
 - npm ci: install dependencies from the committed lockfile.
 - npm run dev: start the local development server.
 - npm run build: generate the production build.
-- npm run preview: serve the latest production build locally.
+- npm run preview: serve the latest production build locally
+  (plain static server; the Netlify adapter does not support `astro preview`).
+- npm run check: run Astro/TypeScript diagnostics.
+- npm run test:e2e: run the Playwright suite against a production build.
+- npm run verify: run check, build, and test:e2e in sequence.
 
 Inspect package.json before running additional commands.
 Do not assume lint, typecheck, or test scripts exist.

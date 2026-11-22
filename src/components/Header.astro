@@ -1,30 +1,152 @@
 ---
-import Logo from '../components/Logo.astro';
+import fcLogo from '../assets/fc/FC_Line_Logo_Black.png';
+import { SITE } from '../config/site';
+import { primaryNavigation, isNavDisclosure } from '../config/navigation';
 
-const navItems = [
-    { linkText: 'Home', href: '/' },
-    { linkText: 'Revalidation', href: '/revalidation' },
-    { linkText: 'Image CDN', href: '/image-cdn' },
-    { linkText: 'Edge Function', href: '/edge' },
-    { linkText: 'Blobs', href: '/blobs' }
-];
+const rawPath = Astro.url.pathname;
+const currentPath = rawPath !== '/' && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
+const isActive = (href: string) => currentPath === href;
+const slug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
 ---
 
-<nav class="flex flex-wrap items-center gap-4 pt-6 pb-16 sm:pt-12 sm:pb-24">
-    <a href="/">
-        <Logo />
-    </a>
-    {
-        !!navItems?.length && (
-            <ul class="flex flex-wrap gap-x-4 gap-y-1">
-                {navItems.map((item) => (
-                    <li>
-                        <a href={item.href} class="inline-block px-1.5 py-1 sm:px-3 sm:py-2">
-                            {item.linkText}
-                        </a>
-                    </li>
-                ))}
+<header class="relative z-20 border-b border-border">
+    <div class="grid items-center grid-cols-[1fr_auto_1fr] gap-4 py-4 sm:py-6">
+        <a
+            href={SITE.linktree}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="justify-self-start rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        >
+            <img src={fcLogo.src} width={fcLogo.width} height={fcLogo.height} alt={SITE.name} class="h-7 w-auto sm:h-9" />
+            <span class="sr-only">(opens in a new tab)</span>
+        </a>
+
+        <nav id="primary-navigation" aria-label="Primary" class="justify-self-center">
+            <ul id="primary-nav-list" class="nav-list">
+                {
+                    primaryNavigation.map((item) =>
+                        isNavDisclosure(item) ? (
+                            <li class="nav-group relative">
+                                <button
+                                    type="button"
+                                    class="nav-trigger inline-flex items-center gap-1 rounded px-2 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                                    aria-expanded="false"
+                                    aria-controls={`nav-panel-${slug(item.label)}`}
+                                >
+                                    {item.label}
+                                    <svg class="nav-chevron h-3 w-3 shrink-0" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+                                        <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                                <ul id={`nav-panel-${slug(item.label)}`} class="nav-panel" hidden>
+                                    {item.items.map((sub) => (
+                                        <li>
+                                            <a
+                                                href={sub.href}
+                                                aria-current={isActive(sub.href) ? 'page' : undefined}
+                                                class="block rounded px-3 py-2 whitespace-nowrap no-underline hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                                            >
+                                                {sub.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        ) : (
+                            <li>
+                                <a
+                                    href={item.href}
+                                    aria-current={isActive(item.href) ? 'page' : undefined}
+                                    class="block rounded px-2 py-2 no-underline hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                                >
+                                    {item.label}
+                                </a>
+                            </li>
+                        )
+                    )
+                }
             </ul>
-        )
+        </nav>
+
+        <button
+            type="button"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="primary-nav-list"
+            aria-label="Toggle navigation menu"
+            class="nav-toggle justify-self-end rounded p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        >
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+        </button>
+    </div>
+</header>
+
+<script>
+    import '../scripts/navigation';
+</script>
+
+<style>
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        gap: 0.25rem;
+        position: absolute;
+        inset-inline: 0;
+        top: 100%;
+        background: var(--color-paper);
+        border-top: 1px solid var(--color-border);
+        padding: 1rem 1.5rem;
     }
-</nav>
+
+    .nav-list.is-open {
+        display: flex;
+    }
+
+    .nav-panel {
+        display: flex;
+        flex-direction: column;
+        padding-left: 0.75rem;
+    }
+
+    [aria-current='page'] {
+        font-weight: 600;
+        text-decoration-thickness: 2px;
+    }
+
+    .nav-trigger[aria-expanded='true'] .nav-chevron {
+        transform: rotate(180deg);
+    }
+
+    @media (min-width: 640px) {
+        .nav-list {
+            display: flex;
+            position: static;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            background: transparent;
+            border-top: none;
+            padding: 0;
+        }
+
+        .nav-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 0.5rem;
+            min-width: 12rem;
+            padding: 0.5rem;
+            border: 1px solid var(--color-border);
+            border-radius: 0.375rem;
+            background: var(--color-paper);
+            box-shadow: 0 10px 24px -8px color-mix(in oklab, black 25%, transparent);
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+    }
+</style>
