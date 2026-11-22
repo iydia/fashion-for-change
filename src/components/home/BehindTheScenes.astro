@@ -1,0 +1,132 @@
+---
+import { clubDocumentary } from '../../data/media';
+---
+
+<section class="behind-scenes" data-documentary data-cursor-tone="dark" aria-labelledby="behind-scenes-heading">
+    <div class="documentary-inner">
+        <h2 id="behind-scenes-heading">Behind the Scenes</h2>
+        <div class="documentary-frame" data-documentary-frame data-video-id={clubDocumentary.videoId} data-video-title={clubDocumentary.title}>
+            <a class="video-launch" data-video-launch href={clubDocumentary.url} target="_blank" rel="noopener noreferrer" aria-label="Watch the Fashion for Change documentary">
+                <img src={`https://i.ytimg.com/vi/${clubDocumentary.videoId}/hqdefault.jpg`} width="480" height="360" alt="" loading="lazy" decoding="async" />
+                <span class="launch-content">
+                    <span class="play-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 5v14l11-7z" /></svg>
+                    </span>
+                    <span>Watch the documentary</span>
+                </span>
+            </a>
+            <div class="curtain curtain-left" aria-hidden="true"></div>
+            <div class="curtain curtain-right" aria-hidden="true"></div>
+        </div>
+        <p class="documentary-caption">
+            <a href={clubDocumentary.url} target="_blank" rel="noopener noreferrer">Watch on YouTube<span class="sr-only"> (opens in a new tab)</span></a>
+        </p>
+    </div>
+</section>
+
+<script>
+    import '../../scripts/documentary';
+</script>
+
+<style>
+    .behind-scenes {
+        background: var(--color-stage);
+        color: var(--color-stage-text);
+        padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4.5rem);
+    }
+
+    .documentary-inner { max-width: 64rem; margin-inline: auto; }
+
+    h2 {
+        text-align: center;
+        font-size: clamp(2.75rem, 6vw, 5rem);
+        font-weight: 400;
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+        margin-bottom: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    .documentary-frame {
+        --curtain-shift: 100%;
+        position: relative;
+        isolation: isolate;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        min-height: 200px;
+        overflow: hidden;
+        border: 1px solid rgb(140 202 251 / 22%);
+        border-radius: 0.5rem;
+        background: #080b10;
+        box-shadow: 0 0 48px rgb(140 202 251 / 6%);
+    }
+
+    .video-launch {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+    }
+
+    .video-launch[hidden] { display: none; }
+    .video-launch:hover { opacity: 1; }
+    .video-launch:focus-visible { outline: 3px solid var(--color-stage-text); outline-offset: -8px; }
+    .video-launch img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+
+    .launch-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        text-align: center;
+        font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+        background: linear-gradient(transparent, rgb(0 0 0 / 25%));
+        text-shadow: 0 1px 8px black;
+    }
+
+    .play-icon {
+        display: grid;
+        place-items: center;
+        width: clamp(3.5rem, 7vw, 5rem);
+        aspect-ratio: 1;
+        border: 1px solid rgb(247 241 231 / 75%);
+        border-radius: 50%;
+        background: rgb(0 0 0 / 25%);
+    }
+
+    .play-icon svg { width: 45%; height: 45%; }
+    .documentary-frame :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+    .curtain {
+        display: none;
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        bottom: 0;
+        width: calc(50% + 1px);
+        background:
+            linear-gradient(to bottom, rgb(0 0 0 / 30%), transparent 20%, rgb(0 0 0 / 25%)),
+            repeating-linear-gradient(90deg, #07121e 0%, #173b58 7%, #102b43 13%, #07121e 21%);
+        box-shadow: 0 0 24px rgb(0 0 0 / 55%);
+        pointer-events: none;
+        transition: transform 90ms linear;
+    }
+
+    [data-curtains-ready] .curtain { display: block; }
+    .curtain-left { left: 0; transform: translateX(calc(-1 * var(--curtain-shift))); border-right: 1px solid rgb(140 202 251 / 25%); }
+    .curtain-right { right: 0; transform: translateX(var(--curtain-shift)); border-left: 1px solid rgb(140 202 251 / 25%); }
+    .documentary-frame:has(.video-launch:focus-visible) .curtain-left { transform: translateX(-100%); }
+    .documentary-frame:has(.video-launch:focus-visible) .curtain-right { transform: translateX(100%); }
+
+    .documentary-caption { text-align: center; margin-top: 1.5rem; font-size: 1rem; color: var(--color-stage-muted); }
+    .documentary-caption a { text-underline-offset: 0.3em; padding-block: 0.5rem; }
+    .documentary-caption a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+
+    @media (prefers-reduced-motion: reduce) {
+        [data-curtains-ready] .curtain { display: none; transition: none; }
+    }
+</style>

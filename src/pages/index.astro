@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import StageHero from '../components/home/StageHero.astro';
 import ShowDayFeature from '../components/home/ShowDayFeature.astro';
+import BehindTheScenes from '../components/home/BehindTheScenes.astro';
 import LogoMarquee from '../components/LogoMarquee.astro';
 import { funders, donationRecipients } from '../data/partners';
 ---
@@ -9,6 +10,7 @@ import { funders, donationRecipients } from '../data/partners';
 <Layout title="Home" variant="stage">
     <StageHero />
     <ShowDayFeature />
-    <LogoMarquee id="funding" heading="Funded by" items={funders} direction="left" duration={65} tone="dark" />
-    <LogoMarquee id="donations" heading="Philanthropic donations to" items={donationRecipients} direction="right" duration={95} tone="dark" />
+    <BehindTheScenes />
+    <LogoMarquee id="funding" heading="Funded By" items={funders} direction="left" duration={65} tone="dark" />
+    <LogoMarquee id="donations" heading="Philanthropic Donations To" items={donationRecipients} direction="right" duration={95} tone="dark" />
 </Layout>
